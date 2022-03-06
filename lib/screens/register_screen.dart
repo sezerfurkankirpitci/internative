@@ -22,9 +22,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
     SignUpModel response = await ApiService().signUp(emailController.text,
         passwordController.text, rePasswordController.text);
     if (response.hasError == true) {
-      print(response.message);
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Kayıt'),
+            content: Text(response.message.toString()),
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Tamam'))
+            ],
+          ),
+          barrierDismissible: false);
     } else if (response.hasError == false) {
-      print(response.message);
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Kayıt'),
+            content: Text('Kayıt tamamlandı.'),
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Tamam'))
+            ],
+          ),
+          barrierDismissible: false);
       print(response.data?.token);
     } else {
       print('Bağlantı hatası.');
